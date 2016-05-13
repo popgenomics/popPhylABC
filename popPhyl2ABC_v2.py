@@ -2,7 +2,7 @@
 from Bio.SeqIO import parse
 from numpy.random import choice
 import sys
-import os
+#import os
 from os import path
 from os import popen
 from os import remove
