@@ -1,0 +1,6 @@
+Tools used for doing ABC from the popPhyl dataset:
+https://lc.cx/4Eid
+
+Depends on the C++ library libsequence:
+https://github.com/molpopgen/analysis
+
