@@ -7,4 +7,6 @@ https://github.com/molpopgen/analysis
 To compile mscalc, the calculator of statistics:
 gcc *.c -lm -o mscalc
 
+To compile msnsam, the coalescent simulator:
+./clms
 
