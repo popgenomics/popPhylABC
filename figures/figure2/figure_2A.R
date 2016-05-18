@@ -1,7 +1,7 @@
-SI = read.table("/home/croux/Documents/test_robustesse_popPhyl/100copies/MHomo_NHomo/OBS_SIv1_IMv1_AMv1_SCv1_SI")
-AM = read.table("/home/croux/Documents/test_robustesse_popPhyl/100copies/MHomo_NHomo/OBS_SIv1_IMv1_AMv1_SCv1_AM")
-IM = read.table("/home/croux/Documents/test_robustesse_popPhyl/100copies/MHomo_NHomo/OBS_SIv1_IMv1_AMv1_SCv1_IM")
-SC = read.table("/home/croux/Documents/test_robustesse_popPhyl/100copies/MHomo_NHomo/OBS_SIv1_IMv1_AMv1_SCv1_SC")
+SI = read.table("probas_SIv1_IMv1_AMv1_SCv1_SI")
+AM = read.table("probas_SIv1_IMv1_AMv1_SCv1_AM")
+IM = read.table("probas_SIv1_IMv1_AMv1_SCv1_IM")
+SC = read.table("probas_SIv1_IMv1_AMv1_SCv1_SC")
 
 MAXY = max(c(density(SI[ ,1])$y, density(AM[ ,3])$y, density(IM[ ,2])$y, density(SC[ ,4])$y))*1.15
 
