@@ -1,4 +1,3 @@
-
 library(shape)
 HH = read.table("migHetero_NHetero.txt", h=T)
 Hh = read.table("migHetero_NHomo.txt", h=T)
@@ -299,6 +298,6 @@ for(i in 1:length(bilanHH)){
 }
 
 
-dev.print(pdf, "figure_S5.pdf", bg="white")
+dev.print(pdf, "figureS5.pdf", bg="white")
 dev.off()
 
