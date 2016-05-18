@@ -1,3 +1,9 @@
-Input files and R scripts to produce raw figures of our manuscript "Comparative divergence genomics enlightens a large grey zone of speciation".
+Input files and R scripts to produce raw figures for our manuscript "Comparative divergence genomics enlightens a large grey zone of speciation".
+
 Scripts for multi-pannel figures are in sub-directories.
+
 For publication, some figures were manually reworked by using Inkscape + GIMP 
+
+Some R scripts call functions that are in my .Rprofile. You can find it here: https://github.com/popgenomics/configFiles
+
+
