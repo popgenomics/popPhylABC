@@ -1,4 +1,4 @@
-#!/software/bin/python2.7
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from numpy.random import uniform
 from numpy.random import beta
