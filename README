@@ -10,3 +10,9 @@ gcc *.c -lm -o mscalc
 To compile msnsam, the coalescent simulator:
 ./clms
 
+The following programs have to be linked to your bin/ :
+	mscalc
+	priorgen.py
+	msnsam
+	popPhyl2ABC_v2.py
+
