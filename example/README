@@ -1,4 +1,34 @@
-Generating input files for ABC:
-popPhyl2ABC_v2.py Ciona_intestinalis_B2.fasta france canada 0.00000002763 0.5 100000 GA02P GA02Q GA02N GA02L
+# Generating input files for ABC:
+popPhyl2ABC_v2.py Ciona_intestinalis_B.fasta france canada 0.00000002763 0.5 100000 GA02P GA02Q GA02N GA02L
+
+# Rename the file containing summary statistics of the observed dataset
+mv ABCstat.txt target.txt
+
+# Remove useless files
+rm -rf locus.ms error.txt spoutput.txt tmp.fas*
+
+# Run 100,000 simulations of 599 loci under the SI scenario, Ne homogeneous
+# It takes 27 minutes on my laptop, i5, 1.9 GHz
+mkdir SI_Nhomo
+cp bpfile SI_Nhomo
+cp spinput.txt SI_Nhomo
+cd SI_Nhomo
+mknod myfifo p
+mscalc < myfifo &
+priorgen.py bpfile=bpfile n1=0 n1=5 n2=0 n2=5 nA=0 nA=5 tau=0 tau=2 M1=0 M1=30 M2=0 M2=30 shape1=0 shape1=20 shape2=0 shape2=200 model=SI nreps=100000 Nvariation=homo Mvariation=hetero symMig=sym parameters=priorfile | msnsam tbs 59900000 -t tbs -r tbs tbs -I 2 tbs tbs 0 -m 1 2 tbs -m 2 1 tbs -n 1 tbs -n 2 tbs -ej tbs 2 1 -eN tbs tbs >myfifo
+
+# To have command lines for alternative scenarios, just type
+priorgen.py
+
+# in practice, I use a cluster with LSF as job manager
+# I run 100,000 simulations per model, 30 times, each in individual sub-directories as following:
+for i in $(seq 1 1 30); do
+	mkdir SI_Nhomo_${i}
+	cp bpfile SI_Nhomo_${i}/
+	cp spinput.txt SI_Nhomo_${i}/
+	cd SI_Nhomo_${i}/
+	bsub -q normal <<<"mknod myfifo p; mscalc < myfifo &; priorgen.py bpfile=bpfile n1=0 n1=5 n2=0 n2=5 nA=0 nA=5 tau=0 tau=2 M1=0 M1=30 M2=0 M2=30 shape1=0 shape1=20 shape2=0 shape2=200 model=SI nreps=100000 Nvariation=homo Mvariation=hetero symMig=sym parameters=priorfile | msnsam tbs 59900000 -t tbs -r tbs tbs -I 2 tbs tbs 0 -m 1 2 tbs -m 2 1 tbs -n 1 tbs -n 2 tbs -ej tbs 2 1 -eN tbs tbs >myfifo"
+	cd ..
+done
 
 
