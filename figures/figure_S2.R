@@ -11,7 +11,7 @@ pointBEunicella1 = c(log10(mean(eunicella1$netdivAB_avg)), sd(eunicella1$FST_avg
 pointAEunicella1 = c(log10(mean(eunicella1$netdivAB_avg)), mean(eunicella1$FST_avg))
 eunicella1$FST_avg[which(eunicella1$FST_avg<0)] = 0
 
-crepidula2 = read.table("../data_popPhylABC/Crepidula2/SumStats.txt", h=T)
+crepidula2 = read.table("../data_popPhylABC/Crepidula1/SumStats.txt", h=T)
 pointBCrepidula2 = c(log10(mean(crepidula2$netdivAB_avg)), sd(crepidula2$FST_avg))
 pointACrepidula2 = c(log10(mean(crepidula2$netdivAB_avg)), mean(crepidula2$FST_avg))
 crepidula2$FST_avg[which(crepidula2$FST_avg<0)] = 0
