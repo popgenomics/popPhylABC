@@ -1,13 +1,17 @@
-Tools used for doing ABC from the popPhyl dataset:
+Datasets from the popPhyl project:
 https://lc.cx/4Eid
 
-Depends on the C++ library libsequence:
+Converting fasta files into input for ABC analysis:
+popPhyl2ABC_v2.py
+
+This code depends on the C++ library libsequence by calling polydNdS to get synonymous positions:
 https://github.com/molpopgen/analysis
+
 
 To compile mscalc, the calculator of statistics:
 gcc *.c -lm -o mscalc
 
-To compile msnsam, the coalescent simulator:
+To compile msnsam, the coalescent simulator (Ross-Ibarra et al, 2008):
 ./clms
 
 The following programs have to be linked to your bin/ :
@@ -15,4 +19,5 @@ The following programs have to be linked to your bin/ :
 	priorgen.py
 	msnsam
 	popPhyl2ABC_v2.py
+	polydNdS
 
