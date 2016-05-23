@@ -92,7 +92,7 @@ nAmbigD = length(which(migD<0.8 & noMigD<0.8 & panmixieD<0.8))
 # plot resultat 1
 tmp = matrix(c(nNoMigA, nNoMigB, nNoMigC, nNoMigD, nMigA, nMigB, nMigC, nMigD, nAmbigA, nAmbigB, nAmbigC, nAmbigD), nrow=4)
 dev.new(width=6, height=5.6)
-barplot(tmp, beside=T, names = c("Current\nisolation", "Current\nintrogression", "NA"), col=grey(c(1, 0.75, 0.5, 0)), legend.text=c("homo M + N", "hetero M", "hetero N", "hetero M + N"), args.legend=list(bty="n"), ylab = "# of pair of species")
+barplot(tmp, beside=T, names = c("current\nisolation", "current\nintrogression", "ambiguous"), col=grey(c(1, 0.75, 0.5, 0)), legend.text=c("homo M + N", "hetero M", "hetero N", "hetero M + N"), args.legend=list(bty="n"), ylab = "# of pair of species")
 #tmp=dev.off()
 cat(paste("#no migration (M_homo, N_homo): ", nNoMigA,
 "\n#no migration (M_hetero, N_homo): ", nNoMigB,
@@ -148,7 +148,7 @@ nAmbigD = length(which(isolationD < 0.8 & ancientD < 0.8 & islandD < 0.8 & secon
 # plot resultat 2
 tmp = matrix(c(nSIa, nSIb, nSIc, nSId, nAMa, nAMb, nAMc, nAMd, nIMa, nIMb, nIMc, nIMd, nSCa, nSCb, nSCc, nSCd, nPANa, nPANb, nPANc, nPANd, nAmbigA, nAmbigB, nAmbigC, nAmbigD), nrow=4)
 dev.new(width=8, height=5.6)
-barplot(tmp, beside=T, names = c("SI", "AM", "IM", "SC", "PAN", "NA"), col=grey(c(1, 0.75, 0.5, 0)), legend.text=c("homo M + N", "hetero M", "hetero N", "hetero M + N"), args.legend=list(x="topleft", bty="n"), ylab = "# of pair of species")
+barplot(tmp, beside=T, names = c("SI", "AM", "IM", "SC", "PAN", "ambiguous"), col=grey(c(1, 0.75, 0.5, 0)), legend.text=c("homo M + N", "hetero M", "hetero N", "hetero M + N"), args.legend=list(x="topleft", bty="n"), ylab = "# of pair of species")
 dev.print(pdf, "figureS4.pdf", bg="white")
 dev.off()
 
