@@ -1,3 +1,7 @@
+
+echo "An incompatibility had been reported with version of libsequence >2.0 "
+
+
 # The following programs have to be linked to your bin/ :
 #	mscalc
 #	priorgen.py

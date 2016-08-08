@@ -4,7 +4,8 @@ https://lc.cx/4Eid
 Converting fasta files into input for ABC analysis:
 popPhyl2ABC_v2.py
 
-This code depends on the C++ library libsequence by calling polydNdS to get synonymous positions:
+This code depends on the C++ library libsequence by calling polydNdS to get synonymous positions.
+An incompatibility had been reported with version of libsequence >2.0 !!!
 https://github.com/molpopgen/analysis
 
 
