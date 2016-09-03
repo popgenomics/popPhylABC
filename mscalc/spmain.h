@@ -358,7 +358,8 @@ void count_segr_sites(int **site,int nsites,int nseq,int *nsegsites);
 void comp_avgpair_nucldiff(int **site,int nsites,int nseq,double *avgpairdif,double *avgpairdif_std);
 void Tajima_test(int **site,int nsites,int nseq,float *D,int *nsgsites,float *avgpd,float *avgpd_std); 
 float pearson_corr_pi(struct result_poly *resl,int nloc);
-
+float pearson_corr_dAB_FST(struct result_poly *resl,int nloc);
+float pearson_corr_dnAB_FST(struct result_poly *resl,int nloc);
 
 
  

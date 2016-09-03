@@ -566,11 +566,11 @@ float pearson_corr_pi(struct result_poly *resl,int nloc)
     float syy=0.0, sxy=0.0, sxx=0.0, ay=0.0, ax=0.0;
 
 	char smess[SMAX];
-    for (j = 0 ; j < nloc ; j++)
-    {
+//CR 03082016    for (j = 0 ; j < nloc ; j++)
+//CR 03082016   {
 /*sprintf(smess,"\n%.6f\t%.6f",resl[j].piA,resl[j].piB);
 write(ERRORFILE,smess);*/
-	}
+//CR 03082016	}
 
     for (j = 0 ; j < nloc ; j++)
     {
@@ -591,6 +591,71 @@ write(ERRORFILE,smess);*/
     return sxy/sqrt(sxx*syy);
 }
 
+
+float pearson_corr_dAB_FST(struct result_poly *resl,int nloc)
+{
+    int j;
+    float yt,xt;
+    float syy=0.0, sxy=0.0, sxx=0.0, ay=0.0, ax=0.0;
+
+	char smess[SMAX];
+//CR 03082016    for (j = 0 ; j < nloc ; j++)
+//CR 03082016   {
+/*sprintf(smess,"\n%.6f\t%.6f",resl[j].piA,resl[j].piB);
+write(ERRORFILE,smess);*/
+//CR 03082016	}
+
+    for (j = 0 ; j < nloc ; j++)
+    {
+        ax += resl[j].dAB;
+        ay += resl[j].FST;
+    }
+    ax /= nloc;
+    ay /= nloc;
+
+    for (j = 0 ; j < nloc ; j++)
+    {
+        xt=resl[j].dAB-ax;
+        yt=resl[j].FST-ay;
+        sxx += xt*xt;
+        syy += yt*yt;
+        sxy += xt*yt;
+    }
+    return sxy/sqrt(sxx*syy);
+}
+
+
+float pearson_corr_dnAB_FST(struct result_poly *resl,int nloc)
+{
+    int j;
+    float yt,xt;
+    float syy=0.0, sxy=0.0, sxx=0.0, ay=0.0, ax=0.0;
+
+	char smess[SMAX];
+//CR 03082016    for (j = 0 ; j < nloc ; j++)
+//CR 03082016   {
+/*sprintf(smess,"\n%.6f\t%.6f",resl[j].piA,resl[j].piB);
+write(ERRORFILE,smess);*/
+//CR 03082016	}
+
+    for (j = 0 ; j < nloc ; j++)
+    {
+        ax += resl[j].dnAB;
+        ay += resl[j].FST;
+    }
+    ax /= nloc;
+    ay /= nloc;
+
+    for (j = 0 ; j < nloc ; j++)
+    {
+        xt=resl[j].dnAB-ax;
+        yt=resl[j].FST-ay;
+        sxx += xt*xt;
+        syy += yt*yt;
+        sxy += xt*yt;
+    }
+    return sxy/sqrt(sxx*syy);
+}
 
 
 

@@ -832,6 +832,8 @@ void write_ABCstat(char *filename,long dataset,int nloc,struct result_poly *r)
 	char smess[SMAX];
 	int l;
 	float corr_pi;
+	float corr_dAB_FST;
+	float corr_dnAB_FST;
 
 	if((fp=fopen(filename,"a"))!= NULL) {
 		fprintf(fp,"\n%ld",dataset);
@@ -875,6 +877,12 @@ void write_ABCstat(char *filename,long dataset,int nloc,struct result_poly *r)
 		fprintf(fp,"\t%.7f",r[nloc+1].FST);
 		corr_pi=pearson_corr_pi(r,nloc);
 		fprintf(fp,"\t%.7f",corr_pi);
+		corr_dAB_FST=pearson_corr_dAB_FST(r,nloc);
+		fprintf(fp,"\t%.7f",corr_dAB_FST);
+		corr_dnAB_FST=pearson_corr_dnAB_FST(r,nloc);
+		fprintf(fp,"\t%.7f",corr_dnAB_FST);
+
+
 		fclose(fp);
 	}     /*if can open filename*/
 	else {    /*if cannot open filename*/
@@ -933,6 +941,8 @@ void initialize_write_ABCstat(char *filename)
 		fprintf(fp,"\t%s","FST_avg");
 		fprintf(fp,"\t%s","FST_std");
 		fprintf(fp,"\t%s","corr_pi");
+		fprintf(fp,"\t%s","corr_dAB_FST");
+		fprintf(fp,"\t%s","corr_dnAB_FST");
 		fclose(fp);
 	}     /*if can open filename*/
 	else {    /*if cannot open filename*/
