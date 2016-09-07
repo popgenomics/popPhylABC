@@ -44,7 +44,8 @@ formes[which(x$species_status_NG == 1)] = 21
 # couleurs en fonction de NHetero, MHetero, NHomo, MHomo.
 couleurs = rep(0, nrow(x))
 
-heteroM = apply(x[,c(39, 40, 43, 44, 47, 48)], FUN="sum", MARGIN=1)
+#heteroM = apply(x[,c(39, 40, 43, 44, 47, 48)], FUN="sum", MARGIN=1)
+heteroM = apply(x[,c(41, 42, 45, 46, 49, 50)], FUN="sum", MARGIN=1)
 
 #homoM_homoN: species with homogeneity for both introgression and Ne
 couleurs[which(pmig_HH>= 0.8 & heteroM >= 0.8)] = "purple"
