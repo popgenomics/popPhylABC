@@ -54,7 +54,7 @@ couleurs[which(pmig_HH> 0.2 & pmig_HH<0.8)] = grey(0.25)
 
 couleurs_contour = couleurs
 couleurs_fond = couleurs
-pNe = apply(x[, grep("v2", colnames(x))], MARGIN=1, FUN="sum")
+pNe = apply(x[, grep("v2_Mhetero_Nhetero", colnames(x))], MARGIN=1, FUN="sum")
 couleurs_fond[which(pNe < 0.8)] = rgb(0, 0, 0, 0)
 
 points(log10(x$netdivAB_avg), pmig_HH, pch=formes, col=couleurs_contour, bg=couleurs_fond, cex=1.8, lwd=2.5)
