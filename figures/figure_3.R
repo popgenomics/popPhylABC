@@ -49,7 +49,7 @@ heteroM = apply(x[,c(41, 42, 45, 46, 49, 50)], FUN="sum", MARGIN=1)
 
 #homoM_homoN: species with homogeneity for both introgression and Ne
 couleurs[which(pmig_HH>= 0.8 & heteroM >= 0.8)] = "purple"
-couleurs[which(pmig_HH>= 0.8 & heteroM <= 0.8)] = "turquoise"
+couleurs[which(pmig_HH>= 0.8 & heteroM < 0.8)] = "turquoise"
 couleurs[which(pmig_HH<= 0.2)] = "red"
 couleurs[which(pmig_HH> 0.2 & pmig_HH<0.8)] = grey(0.25)
 
