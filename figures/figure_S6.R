@@ -1,4 +1,6 @@
 library(shape)
+seuil1 = 0.6419199
+seuil2 = 0.1304469
 
 x = read.csv("../tables/table_S2.csv", h=T)
 
@@ -13,23 +15,23 @@ pmig_hH = bilanhH
 pmig_hh = bilanhh 
 
 tmp = rep(NA, length(bilanHH))
-tmp[which(bilanHH>=0.8)] = "Migration"
-tmp[which(bilanHH<.2)] = "NoMigration"
+tmp[which(bilanHH>=seuil1)] = "Migration"
+tmp[which(bilanHH<=seuil2)] = "NoMigration"
 bilanHH = tmp
 
 tmp = rep(NA, length(bilanHh))
-tmp[which(bilanHh>=0.8)] = "Migration"
-tmp[which(bilanHh<.2)] = "NoMigration"
+tmp[which(bilanHh>=seuil1)] = "Migration"
+tmp[which(bilanHh<=seuil2)] = "NoMigration"
 bilanHh = tmp
 
 tmp = rep(NA, length(bilanhH))
-tmp[which(bilanhH>=0.8)] = "Migration"
-tmp[which(bilanhH<.2)] = "NoMigration"
+tmp[which(bilanhH>=seuil1)] = "Migration"
+tmp[which(bilanhH<=seuil2)] = "NoMigration"
 bilanhH = tmp
 
 tmp = rep(NA, length(bilanhh))
-tmp[which(bilanhh>=0.8)] = "Migration"
-tmp[which(bilanhh<.2)] = "NoMigration"
+tmp[which(bilanhh>=seuil1)] = "Migration"
+tmp[which(bilanhh<=seuil2)] = "NoMigration"
 bilanhh = tmp
 
 # plot MHetero_NHetero
@@ -54,8 +56,8 @@ xA2 = div_NA[1]
 xB2 = div_NA[length(div_NA)]
 
 rect(xA1, -1, xB1, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-abline(h=c(0.2, 0.8), lty=2, lwd=1.25)
+#rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
+abline(h=c(seuil2, seuil1), lty=2, lwd=1.25)
 
 #points(log10(HH$divAB_avg), pmig_HH, col = rgb(0,0,0, 0.5))
 par(las=1)
@@ -69,12 +71,15 @@ formes[which(x$species_status_NG == 1)] = 21
 
 # couleurs en fonction de NHetero, MHetero, NHomo, MHomo.
 couleurs = rep(0, nrow(x))
-heteroM = apply(x[, c(39, 40, 43, 44, 47, 48)], FUN="sum", MARGIN=1)
+pattern=c("Mhetero_Nhetero", "Hetero")
+selectedCol = which(Reduce('&', lapply(pattern, grepl, colnames(x))))
+heteroM = apply(x[, selectedCol], FUN="sum", MARGIN=1)
 
-couleurs[which(pmig_HH>= 0.8 & heteroM >= 0.8)] = "purple"
-couleurs[which(pmig_HH>= 0.8 & heteroM <= 0.8)] = "turquoise"
-couleurs[which(pmig_HH<= 0.2)] = "red"
-couleurs[which(pmig_HH> 0.2 & pmig_HH<0.8)] = grey(0.25)
+
+couleurs[which(pmig_HH>= seuil1 & heteroM >= seuil1)] = "purple"
+couleurs[which(pmig_HH>= seuil1 & heteroM <= seuil1)] = "turquoise"
+couleurs[which(pmig_HH<= seuil2)] = "red"
+couleurs[which(pmig_HH> seuil2 & pmig_HH<seuil1)] = grey(0.25)
 
 points(log10(x$divAB_avg), pmig_HH, pch=formes, col="black", bg=couleurs, cex=1.8)
 
@@ -97,8 +102,8 @@ xA2 = div_NA[1]
 xB2 = div_NA[length(div_NA)]
 
 rect(xA1, -1, xB1, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-abline(h=c(0.2, 0.8), lty=2, lwd=1.25)
+#rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
+abline(h=c(seuil2, seuil1), lty=2, lwd=1.25)
 
 par(las=1)
 
@@ -110,13 +115,17 @@ formes[which(x$species_status_NG == 1)] = 21
 
 # couleurs en fonction de NHetero, MHetero, NHomo, MHomo.
 couleurs = rep(0, nrow(x))
-heteroM = apply(x[, c(54, 56, 58)], FUN="sum", MARGIN=1)
+couleurs = rep(0, nrow(x))
+pattern=c("Mhetero_Nhomo", "Hetero")
+selectedCol = which(Reduce('&', lapply(pattern, grepl, colnames(x))))
+heteroM = apply(x[, selectedCol], FUN="sum", MARGIN=1)
+
 
 #homoM_homoN: species with homogeneity for both introgression and Ne
-couleurs[which(pmig_Hh>= 0.8 & heteroM >= 0.8)] = "purple"
-couleurs[which(pmig_Hh>= 0.8 & heteroM <= 0.8)] = "turquoise"
-couleurs[which(pmig_Hh<= 0.2)] = "red"
-couleurs[which(pmig_Hh> 0.2 & pmig_Hh<0.8)] = grey(0.25)
+couleurs[which(pmig_Hh>= seuil1 & heteroM >= seuil1)] = "purple"
+couleurs[which(pmig_Hh>= seuil1 & heteroM <= seuil1)] = "turquoise"
+couleurs[which(pmig_Hh<= seuil2)] = "red"
+couleurs[which(pmig_Hh> seuil2 & pmig_Hh<seuil1)] = grey(0.25)
 
 points(log10(x$divAB_avg), pmig_Hh, pch=formes, col="black", bg=couleurs, cex=1.8)
 mtext(side = 3, text = "hetero M + homo Ne", cex = 1.5)
@@ -151,8 +160,8 @@ xA2 = div_NA[1]
 xB2 = div_NA[length(div_NA)]
 
 rect(xA1, -1, xB1, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-abline(h=c(0.2, 0.8), lty=2, lwd=1.25)
+#rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
+abline(h=c(seuil2, seuil1), lty=2, lwd=1.25)
 
 par(las=1)
 
@@ -166,10 +175,10 @@ formes[which(x$species_status_NG == 1)] = 21
 couleurs = rep(0, nrow(x))
 heteroM = rep(0, nrow(x)) 
 
-couleurs[which(pmig_hH>= 0.8 & heteroM >= 0.8)] = "purple"
-couleurs[which(pmig_hH>= 0.8 & heteroM <= 0.8)] = "turquoise"
-couleurs[which(pmig_hH<= 0.2)] = "red"
-couleurs[which(pmig_hH> 0.2 & pmig_hH<0.8)] = grey(0.25)
+couleurs[which(pmig_hH>= seuil1 & heteroM >= seuil1)] = "purple"
+couleurs[which(pmig_hH>= seuil1 & heteroM <= seuil1)] = "turquoise"
+couleurs[which(pmig_hH<= seuil2)] = "red"
+couleurs[which(pmig_hH> seuil2 & pmig_hH<seuil1)] = grey(0.25)
 
 points(log10(x$divAB_avg), pmig_hH, pch=formes, col="black", bg=couleurs, cex=1.8)
 mtext(side = 3, text = "homo M + hetero Ne", cex = 1.5)
@@ -204,8 +213,8 @@ xA2 = div_NA[1]
 xB2 = div_NA[length(div_NA)]
 
 rect(xA1, -1, xB1, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
-abline(h=c(0.2, 0.8), lty=2, lwd=1.25)
+#rect(xA2, -1, xB2, 2, col = rgb(0, 0, 0, 0.2), border=NA)
+abline(h=c(seuil2, seuil1), lty=2, lwd=1.25)
 
 par(las=1)
 
@@ -220,10 +229,10 @@ couleurs = rep(0, nrow(x))
 heteroM = rep(0, nrow(x)) 
 
 #homoM_homoN: species with homogeneity for both introgression and Ne
-couleurs[which(pmig_hh>= 0.8 & heteroM >= 0.8)] = "purple"
-couleurs[which(pmig_hh>= 0.8 & heteroM <= 0.8)] = "turquoise"
-couleurs[which(pmig_hh<= 0.2)] = "red"
-couleurs[which(pmig_hh> 0.2 & pmig_hh<0.8)] = grey(0.25)
+couleurs[which(pmig_hh>= seuil1 & heteroM >= seuil1)] = "purple"
+couleurs[which(pmig_hh>= seuil1 & heteroM <= seuil1)] = "turquoise"
+couleurs[which(pmig_hh<= seuil2)] = "red"
+couleurs[which(pmig_hh> seuil2 & pmig_hh<seuil1)] = grey(0.25)
 
 points(log10(x$divAB_avg), pmig_hh, pch=formes, col="black", bg=couleurs, cex=1.8)
 mtext(side = 3, text = "homo M + Ne", cex = 1.5)
@@ -242,6 +251,6 @@ for(i in 1:length(bilanHH)){
 
 
 
-dev.print(pdf, "figureS6.pdf", bg="white")
+dev.print(pdf, "figureS7new.pdf", bg="white")
 dev.off()
 

@@ -4,6 +4,10 @@ b = read.table("migHetero_NHomo.txt", h=T)
 c = read.table("migHomo_NHetero.txt", h=T)
 d = read.table("migHetero_NHetero.txt", h=T)
 
+seuil1 = 0.6419199
+seuil2 = 0.1304469
+seuil2 = 1-seuil2 
+
 #A = paste(a$spA, a$spB, sep="_")
 #B = paste(b$spA, b$spB, sep="_")
 #C = paste(c$spA, c$spB, sep="_")
@@ -69,25 +73,25 @@ noMigB = isolationB + ancientB
 noMigC = isolationC + ancientC
 noMigD = isolationD + ancientD
 
-nMigA = length(which(migA > 0.8))
-nMigB = length(which(migB > 0.8))
-nMigC = length(which(migC > 0.8))
-nMigD = length(which(migD > 0.8))
+nMigA = length(which(migA >= seuil1))
+nMigB = length(which(migB >= seuil1))
+nMigC = length(which(migC >= seuil1))
+nMigD = length(which(migD >= seuil1))
 
-nNoMigA = length(which(noMigA > 0.8))
-nNoMigB = length(which(noMigB > 0.8))
-nNoMigC = length(which(noMigC > 0.8))
-nNoMigD = length(which(noMigD > 0.8))
+nNoMigA = length(which(noMigA >= seuil2))
+nNoMigB = length(which(noMigB >= seuil2))
+nNoMigC = length(which(noMigC >= seuil2))
+nNoMigD = length(which(noMigD >= seuil2))
 
-nPanA = length(which(panmixieA > 0.8))
-nPanB = length(which(panmixieB > 0.8))
-nPanC = length(which(panmixieC > 0.8))
-nPanD = length(which(panmixieD > 0.8))
+nPanA = length(which(panmixieA >= seuil1))
+nPanB = length(which(panmixieB >= seuil1))
+nPanC = length(which(panmixieC >= seuil1))
+nPanD = length(which(panmixieD >= seuil1))
 
-nAmbigA = length(which(migA<0.8 & noMigA<0.8 & panmixieA<0.8))
-nAmbigB = length(which(migB<0.8 & noMigB<0.8 & panmixieB<0.8))
-nAmbigC = length(which(migC<0.8 & noMigC<0.8 & panmixieC<0.8))
-nAmbigD = length(which(migD<0.8 & noMigD<0.8 & panmixieD<0.8))
+nAmbigA = length(which(migA<seuil1 & noMigA<seuil2 & panmixieA<seuil1))
+nAmbigB = length(which(migB<seuil1 & noMigB<seuil2 & panmixieB<seuil1))
+nAmbigC = length(which(migC<seuil1 & noMigC<seuil2 & panmixieC<seuil1))
+nAmbigD = length(which(migD<seuil1 & noMigD<seuil2 & panmixieD<seuil1))
 
 # plot resultat 1
 tmp = matrix(c(nNoMigA, nNoMigB, nNoMigC, nNoMigD, nMigA, nMigB, nMigC, nMigD, nAmbigA, nAmbigB, nAmbigC, nAmbigD), nrow=4)
@@ -115,35 +119,35 @@ cat(paste("#no migration (M_homo, N_homo): ", nNoMigA,
 dev.print(pdf, "figureS3.pdf", bg="white")
 tmp = dev.off()
 
-nSIa = length(which(isolationA > 0.8))
-nSIb = length(which(isolationB > 0.8))
-nSIc = length(which(isolationC > 0.8))
-nSId = length(which(isolationD > 0.8))
+nSIa = length(which(isolationA >= seuil2))
+nSIb = length(which(isolationB >= seuil2))
+nSIc = length(which(isolationC >= seuil2))
+nSId = length(which(isolationD >= seuil2))
 
-nAMa = length(which(ancientA > 0.8))
-nAMb = length(which(ancientB > 0.8))
-nAMc = length(which(ancientC > 0.8))
-nAMd = length(which(ancientD > 0.8))
+nAMa = length(which(ancientA >= seuil2))
+nAMb = length(which(ancientB >= seuil2))
+nAMc = length(which(ancientC >= seuil2))
+nAMd = length(which(ancientD >= seuil2))
 
-nIMa = length(which(islandA > 0.8))
-nIMb = length(which(islandB > 0.8))
-nIMc = length(which(islandC > 0.8))
-nIMd = length(which(islandD > 0.8))
+nIMa = length(which(islandA >= seuil1))
+nIMb = length(which(islandB >= seuil1))
+nIMc = length(which(islandC >= seuil1))
+nIMd = length(which(islandD >= seuil1))
 
-nSCa = length(which(secondaryA > 0.8))
-nSCb = length(which(secondaryB > 0.8))
-nSCc = length(which(secondaryC > 0.8))
-nSCd = length(which(secondaryD > 0.8))
+nSCa = length(which(secondaryA >= seuil1))
+nSCb = length(which(secondaryB >= seuil1))
+nSCc = length(which(secondaryC >= seuil1))
+nSCd = length(which(secondaryD >= seuil1))
 
-nPANa = length(which(panmixieA > 0.8))
-nPANb = length(which(panmixieB > 0.8))
-nPANc = length(which(panmixieC > 0.8))
-nPANd = length(which(panmixieD > 0.8))
+nPANa = length(which(panmixieA >= seuil1))
+nPANb = length(which(panmixieB >= seuil1))
+nPANc = length(which(panmixieC >= seuil1))
+nPANd = length(which(panmixieD >= seuil1))
 
-nAmbigA = length(which(isolationA < 0.8 & ancientA < 0.8 & islandA < 0.8 & secondaryA < 0.8 & panmixieA < 0.8))
-nAmbigB = length(which(isolationB < 0.8 & ancientB < 0.8 & islandB < 0.8 & secondaryB < 0.8 & panmixieB < 0.8))
-nAmbigC = length(which(isolationC < 0.8 & ancientC < 0.8 & islandC < 0.8 & secondaryC < 0.8 & panmixieC < 0.8))
-nAmbigD = length(which(isolationD < 0.8 & ancientD < 0.8 & islandD < 0.8 & secondaryD < 0.8 & panmixieD < 0.8))
+nAmbigA = length(which(isolationA < seuil2 & ancientA < seuil2 & islandA < seuil1 & secondaryA < seuil1 & panmixieA < seuil1))
+nAmbigB = length(which(isolationB < seuil2 & ancientB < seuil2 & islandB < seuil1 & secondaryB < seuil1 & panmixieB < seuil1))
+nAmbigC = length(which(isolationC < seuil2 & ancientC < seuil2 & islandC < seuil1 & secondaryC < seuil1 & panmixieC < seuil1))
+nAmbigD = length(which(isolationD < seuil2 & ancientD < seuil2 & islandD < seuil1 & secondaryD < seuil1 & panmixieD < seuil1))
 
 # plot resultat 2
 tmp = matrix(c(nSIa, nSIb, nSIc, nSId, nAMa, nAMb, nAMc, nAMd, nIMa, nIMb, nIMc, nIMd, nSCa, nSCb, nSCc, nSCd, nPANa, nPANb, nPANc, nPANd, nAmbigA, nAmbigB, nAmbigC, nAmbigD), nrow=4)
