@@ -7,6 +7,7 @@ echo "An incompatibility had been reported with version of libsequence >2.0 "
 #	priorgen.py
 #	msnsam
 #	popPhyl2ABC_v2.py
+#	polydNdS from Kevin Thornton (https://github.com/molpopgen/analysis)
 
 # Generating input files for ABC:
 popPhyl2ABC_v2.py Ciona_intestinalis_B.fasta france canada 0.00000002763 0.5 100000 GA02P GA02Q GA02N GA02L
