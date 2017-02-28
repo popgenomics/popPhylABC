@@ -712,6 +712,12 @@ void write_polyl(char *filename,long dataset,int nloc,struct result_poly *r)
 		fprintf(fp,"\t%.7f",r[nloc].DB);
 		fprintf(fp,"\t%.7f",r[nloc].dAB);
 		fprintf(fp,"\t%.7f",r[nloc].dnAB);
+		// start of modifications by CR 28022017
+		fprintf(fp,"\t%.7f",r[nloc].minDivAB);
+		fprintf(fp,"\t%.7f",r[nloc].maxDivAB);
+		fprintf(fp,"\t%.7f",r[nloc].Gmin);
+		fprintf(fp,"\t%.7f",r[nloc].Gmax);
+		// end of modifications by CR 28022017
 		fprintf(fp,"\t%.7f",r[nloc].FST);
 		for(l=0;l<nloc;l++) {	/*loop over loci*/
 			fprintf(fp,"\t%d",l);
@@ -735,6 +741,12 @@ void write_polyl(char *filename,long dataset,int nloc,struct result_poly *r)
 			fprintf(fp,"\t%.7f",r[l].DB);
 			fprintf(fp,"\t%.7f",r[l].dAB);
 			fprintf(fp,"\t%.7f",r[l].dnAB);
+			// start of modifications by CR 28022017
+			fprintf(fp,"\t%.7f",r[l].minDivAB);
+			fprintf(fp,"\t%.7f",r[l].maxDivAB);
+			fprintf(fp,"\t%.7f",r[l].Gmin);
+			fprintf(fp,"\t%.7f",r[l].Gmax);
+			// end of modifications by CR 28022017
 			fprintf(fp,"\t%.7f",r[l].FST);
 		}
 		fclose(fp);
@@ -789,6 +801,12 @@ void initialize_write_polyl(char *filename,int nloc)
 		fprintf(fp,"\t%s","DtajB");
 		fprintf(fp,"\t%s","divAB");
 		fprintf(fp,"\t%s","netdivAB");
+		// start of modifications by CR 28022017
+		fprintf(fp,"\t%s","minDivAB");
+		fprintf(fp,"\t%s","maxDivAB");
+		fprintf(fp,"\t%s","Gmin");
+		fprintf(fp,"\t%s","Gmax");
+		// end of modifications by CR 28022017
 		fprintf(fp,"\t%s","FST");
 		for(l=0;l<nloc;l++) {	/*loop over loci*/
 			fprintf(fp,"\t%s_%d","loc",l);
@@ -812,6 +830,12 @@ void initialize_write_polyl(char *filename,int nloc)
 			fprintf(fp,"\t%s_%d","DtajB",l);
 			fprintf(fp,"\t%s_%d","divAB",l);
 			fprintf(fp,"\t%s_%d","netdivAB",l);
+			// start of modifications by CR 28022017
+			fprintf(fp,"\t%s_%d","minDivAB",l);
+			fprintf(fp,"\t%s_%d","maxDivAB",l);
+			fprintf(fp,"\t%s_%d","Gmin",l);
+			fprintf(fp,"\t%s_%d","Gmax",l);
+			// end of modifications by CR 28022017
 			fprintf(fp,"\t%s_%d","FST",l);
 		}
 		fclose(fp);
@@ -873,6 +897,16 @@ void write_ABCstat(char *filename,long dataset,int nloc,struct result_poly *r)
 		fprintf(fp,"\t%.7f",r[nloc+1].dAB);
 		fprintf(fp,"\t%.7f",r[nloc].dnAB);
 		fprintf(fp,"\t%.7f",r[nloc+1].dnAB);
+		// start of modifications by CR 28022017
+		fprintf(fp,"\t%.7f",r[nloc].minDivAB);
+		fprintf(fp,"\t%.7f",r[nloc+1].minDivAB);
+		fprintf(fp,"\t%.7f",r[nloc].maxDivAB);
+		fprintf(fp,"\t%.7f",r[nloc+1].maxDivAB);
+		fprintf(fp,"\t%.7f",r[nloc].Gmin);
+		fprintf(fp,"\t%.7f",r[nloc+1].Gmin);
+		fprintf(fp,"\t%.7f",r[nloc].Gmax);
+		fprintf(fp,"\t%.7f",r[nloc+1].Gmax);
+		// end of modifications by CR 28022017
 		fprintf(fp,"\t%.7f",r[nloc].FST);
 		fprintf(fp,"\t%.7f",r[nloc+1].FST);
 		corr_pi=pearson_corr_pi(r,nloc);
@@ -938,6 +972,16 @@ void initialize_write_ABCstat(char *filename)
 		fprintf(fp,"\t%s","divAB_std");
 		fprintf(fp,"\t%s","netdivAB_avg");
 		fprintf(fp,"\t%s","netdivAB_std");
+		// start of modifications by CR 28022017
+		fprintf(fp,"\t%s","minDivAB_avg");
+		fprintf(fp,"\t%s","minDivAB_std");
+		fprintf(fp,"\t%s","maxDivAB_avg");
+		fprintf(fp,"\t%s","maxDivAB_std");
+		fprintf(fp,"\t%s","Gmin_avg");
+		fprintf(fp,"\t%s","Gmin_std");
+		fprintf(fp,"\t%s","Gmax_avg");
+		fprintf(fp,"\t%s","Gmax_std");
+		// end of modifications by CR 28022017
 		fprintf(fp,"\t%s","FST_avg");
 		fprintf(fp,"\t%s","FST_std");
 		fprintf(fp,"\t%s","corr_pi");

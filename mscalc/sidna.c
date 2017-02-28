@@ -268,6 +268,14 @@ void compute_polyl(int nseqA,int nseqB,int nsl,int nspolyl,
 	compute_DTajima(nseqB,count_segr,r->piB*nsl,&DTajima);
 	r->DB=DTajima;
 	/*now computes average pairwise divergence between species A and B*/
+	// calcul de Dmin: representer la divergence la plus faible entre A et B
+	double* listeDivAB = NULL; // CR 28022017
+	listeDivAB = malloc(nseqA*nseqB * sizeof(double)); // CR 28022017
+	if(listeDivAB == NULL){ // CR 28022017
+		exit(0); // CR 28022017
+	} // CR 28022017
+	
+	int positionListeDivAB = -1; // CR 28022017
 	count_pair=0;
 	sumpairdif=0.0;
 	for(h1=0;h1<nseqA;h1++) {	/*starts loop over haplotypes at species A*/
@@ -278,16 +286,34 @@ void compute_polyl(int nseqA,int nseqB,int nsl,int nspolyl,
 			}
 			count_pair++;
 			sumpairdif += count_dif/(double)nsl;
+			positionListeDivAB++;
+			listeDivAB[positionListeDivAB] = count_dif/(double)nsl; // CR 28022017
 				/*sumpairdif_sq += count * count;*/
-		}
+		}/*end loops over haplotypes at species B*/
 	}	/*end loops over pairs of haplotypes */
+	
+	r->minDivAB = (float)minimum(listeDivAB, nseqA*nseqB); // CR 28022017
+	r->maxDivAB = (float)maximum(listeDivAB, nseqA*nseqB); // CR 28022017
+	free(listeDivAB); // CR 28022017
+	
 	r->dAB=(float) sumpairdif/(float)count_pair;
 	r->dnAB=r->dAB-(r->piA+r->piB)/2.0;
+	if (r->dAB < 1.0e-7){// CR 28022017
+		r->Gmin = MISSING;// CR 28022017
+		r->Gmax = MISSING;// CR 28022017
+	}else{// CR 28022017
+		r->Gmin = r->minDivAB / r->dAB;// CR 28022017
+		r->Gmax = r->maxDivAB / r->dAB;// CR 28022017
+	}// CR 28022017
+	
 	piT += sumpairdif;
 	count_pair_piT += count_pair;
 	piT /= (float) count_pair_piT;
 	if (piT < 1.0e-7) r->FST=MISSING;
 	else r->FST=(piT-(r->piA+r->piB)/2.0)/piT;
+	
+	// print for testing stuff: CR 28022017
+//	printf("Fst=%lf\tdAB=%lf\tdABnet=%lf\tminDivAB=%lf\tmaxDivAB=%lf\tGmin=%lf\tpiA=%lf\tpiB=%lf\n",r->FST, r->dAB, r->dnAB, r->minDivAB, r->maxDivAB, r->Gmin, r->piA, r->piB); // CR 28022017: pour le test
 	free(Walds);
 }	/*end of compute_polyl*/
 
@@ -658,4 +684,33 @@ write(ERRORFILE,smess);*/
 }
 
 
+double minimum(double liste[], int n) {
+	int i, index;
+	double min; 
+	min = liste[0];
+	index = 0;
+ 
+	for(i = 1; i < n; i++){
+		if(liste[i] < min){
+			index = i;
+			min = liste[i];
+		}
+	}
+	return min;
+}
+
+double maximum(double liste[], int n) {
+	int i, index;
+	double max; 
+	max = liste[0];
+	index = 0;
+ 
+	for(i = 1; i < n; i++){
+		if(liste[i] > max){
+			index = i;
+			max = liste[i];
+		}
+	}
+	return max;
+}
 

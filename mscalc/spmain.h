@@ -69,6 +69,10 @@ struct result_poly{
 	float DB;
 	float dAB;
 	float dnAB;
+	double minDivAB;
+	double maxDivAB;
+	double Gmin;
+	double Gmax;
 	float FST;
 	float Wald;
 };
@@ -360,7 +364,8 @@ void Tajima_test(int **site,int nsites,int nseq,float *D,int *nsgsites,float *av
 float pearson_corr_pi(struct result_poly *resl,int nloc);
 float pearson_corr_dAB_FST(struct result_poly *resl,int nloc);
 float pearson_corr_dnAB_FST(struct result_poly *resl,int nloc);
-
+double minimum(double liste[], int n);
+double maximum(double liste[], int n);
 
  
 

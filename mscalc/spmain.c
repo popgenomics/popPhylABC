@@ -43,6 +43,10 @@ void main(int argc,char *argv[])
 	char ***seqBlhs;		/*Array with DNA sequences for species B, locus l, haplotype h, sites 0 to nls[l]-1*/
 	char **seqOls;		/*Array with DNA sequences for Outgroup, locus l, sites 0 to nls[l]-1*/
 	struct result_poly *result_polyl;	/*vector of structure with results of classification of sites*/
+	// start of modifications by CR 28022017
+	int Gmin_missing;			/*number of loci for which Gmin cannot be computed because no divergence*/
+	int Gmax_missing;			/*number of loci for which Gmax cannot be computed because no divergence*/
+	// end of modifications by CR 28022017
 	int Fst_missing;			/*number of loci for which Fst cannot be computed because no polymorphic sites*/
 	int *nspolyl;		/*vector of number of polymorphic sites for locus l from 0 to nloc-1*/
 
@@ -169,6 +173,12 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 			result_polyl[nloc].DB=0.0F;
 			result_polyl[nloc].dAB=0.0F;
 			result_polyl[nloc].dnAB=0.0F;
+			// start of modifications from CR 28022017
+			result_polyl[nloc].minDivAB=0.0F; // minimum measured divergence between an haplotype from A and one from B
+			result_polyl[nloc].maxDivAB=0.0F; // maximum measured divergence between an haplotype from A and one from B
+			result_polyl[nloc].Gmin=0.0F; // minDivAB / divAB
+			result_polyl[nloc].Gmax=0.0F; // maxDivAB / divAB
+			// end of modifications from CR 28022017
 			result_polyl[nloc].FST=0.0F;
 			result_polyl[nloc+1].totsites=0;	/*for sums of squares of stat*/
 			result_polyl[nloc+1].bialsites=0;
@@ -190,9 +200,19 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 			result_polyl[nloc+1].DB=0.0F;
 			result_polyl[nloc+1].dAB=0.0F;
 			result_polyl[nloc+1].dnAB=0.0F;
+			// start of modifications from CR 28022017
+			result_polyl[nloc+1].minDivAB=0.0F; 
+			result_polyl[nloc+1].maxDivAB=0.0F;
+			result_polyl[nloc+1].Gmin=0.0F;
+			result_polyl[nloc+1].Gmax=0.0F;
+			// end of modifications from CR 28022017
 			result_polyl[nloc+1].FST=0.0F;
 			/*sprintf(datasetfile,"%s_%d.arp",datafilename,countdatasets);*/
 			get_dataset(finp,countdatasets,nseqAl,nseqBl,nloc,nsl,nsmax,seqAlhs,seqBlhs,seqOls,nspolyl);
+			// start of modifications from CR 28022017
+			Gmin_missing=0;
+			Gmax_missing=0;
+			// end of modifications from CR 28022017
 			Fst_missing=0;
 			for(lmain=0;lmain<nloc;lmain++)	{ /*loop over loci */
 	/*write_dataset_fasta("data_fasta.fsa",nseqAl[lmain],nseqBl[lmain],lmain,nsl[lmain],seqAlhs,seqBlhs,seqOls);*/
@@ -217,6 +237,14 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 				result_polyl[nloc].DB+=result_polyl[lmain].DB;
 				result_polyl[nloc].dAB+=result_polyl[lmain].dAB;
 				result_polyl[nloc].dnAB+=result_polyl[lmain].dnAB;
+				// start of modifications from CR 28022017
+				result_polyl[nloc].minDivAB+=result_polyl[lmain].minDivAB;
+				result_polyl[nloc].maxDivAB+=result_polyl[lmain].maxDivAB;
+				if(result_polyl[lmain].Gmin != MISSING) result_polyl[nloc].Gmin+=result_polyl[lmain].Gmin;
+					else Gmin_missing++;
+				if(result_polyl[lmain].Gmax != MISSING) result_polyl[nloc].Gmax+=result_polyl[lmain].Gmax;
+					else Gmax_missing++;
+				// end of modifications from CR 28022017
 				if(result_polyl[lmain].FST != MISSING) result_polyl[nloc].FST+=result_polyl[lmain].FST;
 					else Fst_missing++;
 				result_polyl[nloc+1].totsites+=sqr(result_polyl[lmain].totsites);
@@ -239,6 +267,12 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 				result_polyl[nloc+1].DB+=sqr(result_polyl[lmain].DB);
 				result_polyl[nloc+1].dAB+=sqr(result_polyl[lmain].dAB);
 				result_polyl[nloc+1].dnAB+=sqr(result_polyl[lmain].dnAB);
+				// start of modifications from CR 28022017
+				result_polyl[nloc+1].minDivAB+=sqr(result_polyl[lmain].minDivAB);
+				result_polyl[nloc+1].maxDivAB+=sqr(result_polyl[lmain].maxDivAB);
+				if(result_polyl[lmain].Gmin != MISSING) result_polyl[nloc+1].Gmin+=sqr(result_polyl[lmain].Gmin);
+				if(result_polyl[lmain].Gmax != MISSING) result_polyl[nloc+1].Gmax+=sqr(result_polyl[lmain].Gmax);
+				// end of modifications from CR 28022017
 				if(result_polyl[lmain].FST != MISSING) result_polyl[nloc+1].FST+=sqr(result_polyl[lmain].FST);
 			}	/*end loop over loci*/
 			result_polyl[nloc+1].totsites=comp_std(nloc,result_polyl[nloc].totsites,result_polyl[nloc+1].totsites);
@@ -261,6 +295,14 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 			result_polyl[nloc+1].DB=comp_std(nloc,result_polyl[nloc].DB,result_polyl[nloc+1].DB);
 			result_polyl[nloc+1].dAB=comp_std(nloc,result_polyl[nloc].dAB,result_polyl[nloc+1].dAB);
 			result_polyl[nloc+1].dnAB=comp_std(nloc,result_polyl[nloc].dnAB,result_polyl[nloc+1].dnAB);
+			// start of modifications from CR 28022017
+			result_polyl[nloc+1].minDivAB=comp_std(nloc,result_polyl[nloc].minDivAB,result_polyl[nloc+1].minDivAB);
+			result_polyl[nloc+1].maxDivAB=comp_std(nloc,result_polyl[nloc].maxDivAB,result_polyl[nloc+1].maxDivAB);
+			if((nloc-Gmin_missing)>0) result_polyl[nloc+1].Gmin=comp_std((nloc-Gmin_missing),result_polyl[nloc].Gmin,result_polyl[nloc+1].Gmin);
+			else result_polyl[nloc+1].Gmin=0;
+			if((nloc-Gmax_missing)>0) result_polyl[nloc+1].Gmax=comp_std((nloc-Gmax_missing),result_polyl[nloc].Gmax,result_polyl[nloc+1].Gmax);
+			else result_polyl[nloc+1].Gmax=0;
+			// end of modifications from CR 28022017
 			if((nloc-Fst_missing)>0) result_polyl[nloc+1].FST=comp_std((nloc-Fst_missing),result_polyl[nloc].FST,result_polyl[nloc+1].FST);
 			else result_polyl[nloc+1].FST=0;
 			result_polyl[nloc].totsites /= (float) nloc;
@@ -283,6 +325,14 @@ int nseqspecies1,nseqspecies2,nseqspecies3;
 			result_polyl[nloc].DB /= (float) nloc;
 			result_polyl[nloc].dAB /= (float) nloc;
 			result_polyl[nloc].dnAB /= (float) nloc;
+			// start of modifications from CR 28022017
+			result_polyl[nloc].minDivAB /= (float) nloc;
+			result_polyl[nloc].maxDivAB /= (float) nloc;
+			if((nloc-Gmin_missing)>0) result_polyl[nloc].Gmin /= (float) (nloc-Gmin_missing);
+			else result_polyl[nloc].Gmin=0;
+			if((nloc-Gmax_missing)>0) result_polyl[nloc].Gmax /= (float) (nloc-Gmax_missing);
+			else result_polyl[nloc].Gmax=0;
+			// end of modifications from CR 28022017
 			if((nloc-Fst_missing)>0) result_polyl[nloc].FST /= (float) (nloc-Fst_missing);
 			else result_polyl[nloc].FST=0;
 			/*write_polyl(outputfilename,countdatasets,nloc,result_polyl);*/
