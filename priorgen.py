@@ -1,11 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from numpy.random import uniform
-from numpy.random import beta
-from numpy.random import binomial
-from random import shuffle
-import sys
-n1, n2, nA, tau, M1, M2, shape1, shape2 = [], [], [], [], [], [], [], []
 help="\n\t\033[32mExternal required library: numpy \033[1;m(sudo apt-get install python-numpy)\n\t\
 priorgen.py generates prior distributions for multiple multilocus simulations under 14 different models of speciation. The output can be used from the stdout by ms (Hudson 2002), msnsam (Ross-Ibarra 2008) and msms (Ewing and Hermisson 2010) using the 'tbs' feature.\n\t\
 It requires one input file containing six lines: \n\t\t\
@@ -38,6 +32,18 @@ msnsam tbs 20000 -t tbs -r tbs tbs -I 2 tbs tbs 0 -m 1 2 tbs -m 2 1 tbs -n 1 tbs
 msnsam tbs 20000 -t tbs -r tbs tbs -I 2 tbs tbs 0 -m 1 2 tbs -m 2 1 tbs -n 1 tbs -n 2 tbs -eM tbs 0 -ej tbs 2 1 -eN tbs tbs\t#for 'SC'\n\n\t\
 camille.roux.1@unil.ch\n\t\
 10/10/2014\n"
+try:
+	from numpy.random import uniform
+	from numpy.random import beta
+	from numpy.random import binomial
+	from random import shuffle
+except ImportError:
+	print(help)
+	sys.exit(0)
+#
+import sys
+#
+n1, n2, nA, tau, M1, M2, shape1, shape2 = [], [], [], [], [], [], [], []
 for i in sys.argv:
 	if("help" in i):
 		print(help)
@@ -257,4 +263,3 @@ for i in range(nreps):
 outputfile=open(outputParameters, "w")
 outputfile.write(res)
 outputfile.close()
-
